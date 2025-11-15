@@ -4,13 +4,15 @@ import { ThemeProvider, useTheme } from './context/ThemeContext';
 import FeedbackForm from './components/FeedbackForm';
 import FeedbackList from './components/FeedbackList';
 import FeedbackStats from './components/FeedbackStats';
+import { FaMoon, FaSun, FaCommentAlt } from 'react-icons/fa';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 const API_URL = 'http://localhost:5000/api/feedback';
 
-function App() {
+// Move the AppContent component inside the ThemeProvider
+const AppContent = () => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [stats, setStats] = useState({
     total: 0,
@@ -18,6 +20,7 @@ function App() {
     positive: 0,
     negative: 0
   });
+  const { darkMode, toggleTheme } = useTheme();
 
   // Fetch all feedbacks
   const fetchFeedbacks = async () => {
@@ -58,28 +61,26 @@ function App() {
     fetchStats();
   }, []);
 
-  const { darkMode, toggleDarkMode } = useTheme();
-
   return (
     <div className={`App ${darkMode ? 'dark-mode' : ''}`}>
       <Navbar bg={darkMode ? 'dark' : 'light'} variant={darkMode ? 'dark' : 'light'} className="mb-4">
         <Container>
           <Navbar.Brand href="#" className="d-flex align-items-center">
-            <i className="fas fa-comment-alt me-2"></i>
+            <FaCommentAlt className="me-2" />
             <span>Feedback Dashboard</span>
           </Navbar.Brand>
           <div className="d-flex align-items-center">
             <Button 
               variant={darkMode ? 'outline-light' : 'outline-secondary'}
               size="sm"
-              onClick={toggleDarkMode}
+              onClick={toggleTheme}
               className="d-flex align-items-center"
               aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {darkMode ? (
-                <><i className="fas fa-sun me-1"></i> Light Mode</>
+                <><FaSun className="me-1" /> Light Mode</>
               ) : (
-                <><i className="fas fa-moon me-1"></i> Dark Mode</>
+                <><FaMoon className="me-1" /> Dark Mode</>
               )}
             </Button>
           </div>
@@ -99,13 +100,13 @@ function App() {
       </Container>
     </div>
   );
-}
+};
 
-// Wrap the App with ThemeProvider
-const AppWithTheme = () => (
+// Main App component that wraps everything with ThemeProvider
+const App = () => (
   <ThemeProvider>
-    <App />
+    <AppContent />
   </ThemeProvider>
 );
 
-export default AppWithTheme;
+export default App;
