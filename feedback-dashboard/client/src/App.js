@@ -9,7 +9,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-const API_URL = 'http://localhost:5000/api/feedback';
+const API_URL = 'https://feedbackproject12.netlify.app/';
 
 // Move the AppContent component inside the ThemeProvider
 const AppContent = () => {

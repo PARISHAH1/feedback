@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors');
+//const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const feedbackRoutes = require('./routes/feedbackRoutes');
@@ -7,7 +7,17 @@ const feedbackRoutes = require('./routes/feedbackRoutes');
 const app = express();
 
 // Middleware
-app.use(cors());
+const cors = require('cors');
+app.use(cors({
+  origin: [
+    'https://https://feedbackproject12.netlify.app/', // Your Netlify URL
+    'https://feedback-rosy-tau.vercel.app', // Your Vercel URL
+    'http://localhost:3000' // Local development
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 // Routes
